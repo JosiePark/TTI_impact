@@ -1,0 +1,14 @@
+epi_params:
+  p_symptomatic: 0.63
+
+testing_params:
+  p_symp_test: 0.6
+  p_asymp_test: 0.2
+  p_PCR_symp: 0.7
+  p_PCR_asymp: 0.4
+
+contact_params:
+  mean_home_contacts: 1.2
+  mean_school_contacts: 0.7
+  mean_work_contacts: 0.3
+  mean_random_contacts: 1.5
