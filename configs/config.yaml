@@ -1,11 +1,13 @@
 epi_params:
   p_symptomatic: 0.63
+  max_infectiousness_day: 20
 
 testing_params:
   p_symp_test: 0.6
   p_asymp_test: 0.2
   p_PCR_symp: 0.7
   p_PCR_asymp: 0.4
+  result_delay: 3
 
 contact_params:
   mean_home_contacts: 1.2

@@ -1,4 +1,5 @@
 import yaml
+from scipy.stats import gamma
 
 def load_config(fpath):
 
