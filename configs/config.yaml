@@ -1,3 +1,6 @@
+pop_params:
+  prevalence: 1000
+
 epi_params:
   p_symptomatic: 0.63
   max_infectiousness_day: 20

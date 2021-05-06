@@ -2,6 +2,9 @@ import yaml
 from scipy.stats import gamma
 
 def load_config(fpath):
+    '''
+    Function that loads the config file
+    '''
 
     with open(fpath, 'r') as f:
         config = yaml.safe_load(f)

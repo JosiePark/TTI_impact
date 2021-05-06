@@ -1,5 +1,3 @@
-from covidTTI.utils import dgamma
-
 def draw_from_incubation_period(rng, option = 'Zhang'):
 
     if option == 'Zhang':

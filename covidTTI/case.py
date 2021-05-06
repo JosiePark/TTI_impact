@@ -15,10 +15,11 @@ class indexCase():
     def __init__(
         self, 
         parameters, 
-        random_seed
+        random_seed = 1
         ):
         self.parameters = parameters
         self.rng = np.random.default_rng(random_seed)
+        self.simulate_case()
 
     def simulate_case(self):
 

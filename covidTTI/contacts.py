@@ -17,12 +17,18 @@ class Contact():
 
         # probability 
 
-def populate_contacts(Case, parameters):
+def populate_contacts(self, case, parameters):
     '''
     Function that populates the contacts of a given index case
+
+    Categories of contacts are divided into home, work school and community contacts
     '''
 
     # household contacts
 
-    # non-household contacts
+    # work contacts
+
+    # school contacts
+
+    # random contacts
 
