@@ -1,6 +1,16 @@
 pop_params:
   prevalence: 1000
 
+contact_params:
+  H:
+    n_contacts: 3
+  W:
+    n_contacts: 20
+  S:
+    n_contacts: 20
+  C:
+    n_contacts: 4
+
 epi_params:
   p_symptomatic: 0.63
   max_infectiousness_day: 20

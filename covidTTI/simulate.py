@@ -6,5 +6,7 @@ class Simulation():
         self.parameters = parameters
 
     def populate_cases(self):
+        return
 
-    def populate_contacts
+    def populate_contacts(self):
+        return

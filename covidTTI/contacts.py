@@ -1,34 +1,14 @@
+import numpy as np
+
 class Contact():
 
-    def __init__(self, parameters, household):
+    def __init__(self, parameters, contact_layer = 'h'):
         self.parameters = parameters
-        self.household = household
+        self.contact_layer = contact_layer
+        self.simulate_contact()
 
-    def simulate_contacts(self):
+    def simulate_contact(self):
 
-        # probability infected
-        if self.household:
-            # assume if a household contact, individual is infected
-            self.has_covid = True
-        else:
+        return
 
-        
-        # probability contacted
-
-        # probability 
-
-def populate_contacts(self, case, parameters):
-    '''
-    Function that populates the contacts of a given index case
-
-    Categories of contacts are divided into home, work school and community contacts
-    '''
-
-    # household contacts
-
-    # work contacts
-
-    # school contacts
-
-    # random contacts
 

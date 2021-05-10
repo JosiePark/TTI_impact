@@ -6,9 +6,11 @@ testing conditions
 '''
 
 import numpy as np
+import uuid
 
 from covidTTI.utils import bernoulli
 from covidTTI.parameters import draw_from_incubation_period
+from covidTTI.contacts import Contact
 
 class indexCase():
 
@@ -20,6 +22,7 @@ class indexCase():
         self.parameters = parameters
         self.rng = np.random.default_rng(random_seed)
         self.simulate_case()
+        self.init_contacts()
 
     def simulate_case(self):
 
@@ -50,3 +53,29 @@ class indexCase():
         self.positive_result = self.PCR_tested*bernoulli(.5, self.rng)
 
         # probability isolates
+
+        return
+
+    def init_contacts(self):
+
+        self.contacts = {}
+
+    def populate_contacts(self):
+        '''
+        Function that populates the contacts of a given index case. Contacts are drawn
+        from a poisson distribution
+
+        Categories of contacts are divided into home, work school and community contacts.
+        '''
+        contact_keys = self.parameters['contact_params'].keys()
+        
+        for layer in contact_keys:
+            n_contacts = np.random.poisson(self.parameters['contact_params'][layer]['n_contacts'], 1)
+            for n in n_contacts:
+                contact_id = uuid.uuid4().hex
+                self.contacts[contact_id] = Contact(self.parameters, contact_layer=layer)
+
+        return 
+
+    
+
