@@ -1,7 +1,6 @@
 import os
 import numpy as np
 
-from covidTTI.case import indexCase
 import covidTTI.utils as utils
 
 if __name__ == "__main__":
@@ -18,11 +17,6 @@ if __name__ == "__main__":
 
     # seed
     seed = 1
-    
-    for n in range(n_cases):
-        # generate an index case
-        index_case = indexCase(config, random_seed = seed)
-        # simulate resulting contacts
 
         
 

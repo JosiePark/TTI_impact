@@ -1,29 +1,18 @@
 pop_params:
   prevalence: 1000
 
-contact_params:
-  H:
-    n_contacts: 3
-  W:
-    n_contacts: 20
-  S:
-    n_contacts: 20
-  C:
-    n_contacts: 4
-
 epi_params:
   p_symptomatic: 0.63
-  max_infectiousness_day: 20
-
-testing_params:
-  p_symp_test: 0.6
-  p_asymp_test: 0.2
-  p_PCR_symp: 0.7
-  p_PCR_asymp: 0.4
-  result_delay: 3
+  max_infectiousness_day: 18
+  asymp_factor: 0.2
+  beta: 0.016
 
 contact_params:
-  mean_home_contacts: 1.2
-  mean_school_contacts: 0.7
-  mean_work_contacts: 0.3
-  mean_random_contacts: 1.5
+  household_dict:
+    1: 0.2
+    2: 0.3
+    3: 0.5
+  mean_daily_contacts: 5
+  
+
+
