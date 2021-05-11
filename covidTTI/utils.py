@@ -1,5 +1,5 @@
 import yaml
-from scipy.stats import gamma
+from scipy.stats import gamma, nbinom
 import numpy as np
 
 def init_seed(random_seed = 1):
@@ -57,17 +57,7 @@ def draw_from_viral_load(rng, size = 1):
     '''
     return rng.negative_binomial(mean = 1, shape = 0.45, size = size)
 
+def calculate_viral_load(day):
 
-def calc_infection_prob_per_day(parameters, n_contacts):
-    '''
-    beta is a constant called the transmission rate and is the 
-    average number of people each infectious person spreads the disease to each day
-
-    Args:
-        n_contacts(int): is number of contacts per day
-    '''
-    # probability of being infected is beta/n_contacts
-
-    return parameters['epi_params']['beta']/n_contacts
-
+    return nbinom.pmf(x = day, mean = 1, shape = 0.45)
 

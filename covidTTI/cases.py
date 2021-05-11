@@ -1,3 +1,5 @@
+import numpy as np
+
 import covidTTI.utils as utils
 
 class indexCase():
@@ -11,7 +13,7 @@ class indexCase():
         self.parameters = parameters
         self.rng = utils.init_seed(random_seed = random_seed)
         self.init_case()
-        self.sample_contacts()
+        self.draw_contacts()
 
     def init_case(self):
 
@@ -23,7 +25,13 @@ class indexCase():
         # how long in days infectious
         self.infectious_length = self.parameters['epi_params']['max_infectious_day']
 
-    def sample_contacts(self):
+        # when symptoms occur
+        if self.symptomatic:
+            self.day_symptom_onset = utils.draw_from_incubation_period(self.rng)
+        else:
+            self.day_symptom_onset = np.nan
+
+    def draw_contacts(self):
 
         # number of household contacts
         # it is assumed that these contacts are come
@@ -44,6 +52,26 @@ class indexCase():
             )
 
         self.n_other = n_household
+
+    def report_contacts(self):
+
+        # does the cases supply contacts?
+        # if the case is asymptomatic, assume that contacts are 
+        # only entered if tested
+        if self.symptomatic:
+            self.enters_contacts = utils.bernoulli(
+                self.parameters['trace_params']['p_contacts_entered'],
+                self.rng
+            )
+            # day contacts entered after infection
+            # assume that it is a maximum of 5 days
+            #  after symptomatic onset
+            self.day_contacts_entered = \
+                utils.draw_from_incubation_period(self.rng) + \
+                    self.rng.randint(0, 5)
+        else:
+            self.enters_contacts = False 
+            self.day_contacts_entered = np.nan
         
 
 

@@ -54,8 +54,7 @@ class Contact():
         # the day they came into contact, and of the infectiosness
         # distribution
         else:
-            # TODO: find value of viral load at day exposed
-            viral_load = 0.2
+            viral_load = utils.calculate_viral_load(self.day_exposed)
             self.has_covid = utils.bernoulli(
                 viral_load * infection_scale * self.parameters['contact_params']['sar']['other'] * self.parameters['epi_params']['max_infectious_day'],
                 self.rng
@@ -64,18 +63,50 @@ class Contact():
             if self.has_covid:
                 self.day_infected = self.day_exposed
             else:
-                self.day_infected = np.nan        
+                self.day_infected = np.nan  
+
+        # establish whether case is symptomatic or not
+        if self.has_covid:
+            self.symptomatic = utils.bernoulli(
+                self.parameters['epi_params']['p_symp'],
+                self.rng
+            )
+        else:
+            self.symptomatic = False      
 
     def trace(self):
         '''
         Calculate whether the contact was traced or not
-        by drawing from a distribution
         '''
+
+        # if the index case enters contacts, then
+        if self.index_case.enters_contacts:
+            # if contact is a household member
+            # assume tracing is successful
+            # and contact is traced on same day as contacts entered
+            if self.is_household:
+                self.traced = True
+                self.day_traced = self.index_case.day_contacts_entered
+            else:
+                self.traced = utils.bernoulli(
+                    self.parameters['trace_params']['p_traced'],
+                    self.rng
+                )
+                # assume tracing occurs a maximum of 3 days after contacts
+                # were entered by the index case
+                self.day_traced = self.index_case.day_contacts_entered + \
+                    self.rng.randint(0, 3)
+                
+        else:
+            self.traced = False
+            self.day_traced = np.nan
 
     def test(self):
         '''
         Calculate whether (and when) the contact was tested
         '''
+
+
 
     def isolate(self):
         '''
