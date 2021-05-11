@@ -105,13 +105,64 @@ class Contact():
         '''
         Calculate whether (and when) the contact was tested
         '''
+        
+        # is testing done on symptoms?
+        if self.symptomatic:
+            test_on_symptoms = utils.bernoulli(
+                self.parameters['testing_params']['p_symp_test'],
+                self.rng
+            )
+            if test_on_symptoms:
+                day_test_on_symptoms
+        else:
+            test_on_symptoms = False
+            day_test_on_symptoms = np.nan
 
+        # is testing done on tracing?
+        if self.traced:
+            test_on_tracing = utils.bernoulli(
+                self.parameters['test_params']['p_trace_test'],
+                self.rng
+            )
+            if test_on_tracing:
+                #day_test_on_tracing
+        else:
+            test_on_tracing = False
+            day_test_on_tracing = False
 
+        # is random asymptomatic (i.e. mass testing) done?
+        test_on_mass = utils.bernoulli(
+            self.parameters['test_params']['p_mass_test'],
+            self.rng
+        )
+        # day tested on mass is drawn from a uniform distribution
+        # covering the infectious period
+        day_test_on_mass = self.rng.random.randint(0, 14)
+
+        # contact is tested whether any of the above are true
+        if test_on_symptoms or test_on_mass or test_on_tracing:
+            self.tested = True
+            self.day_tested = min(day_test_on_symptoms, day_test_on_tracing, day_test_on_mass)
+        else:
+            self.tested = False
+            self.day_tested = np.nan
 
     def isolate(self):
         '''
         Calculate whether (and when) the contact isolated
         '''
+
+        # isolate on symptoms
+        if self.symptomatic:
+            isolate_on_symptoms = utils.bernoulli(
+                self.parameters['isolate_params']['p_isolate_symp'],
+                self.rng
+            )
+            day_isolate_on_symptoms = 
+
+        # isolate on trace
+
+        # isolate on test
 
         
 

@@ -3,13 +3,12 @@ import numpy as np
 
 from covidTTI.contacts import Contact
 from covidTTI.cases import indexCase
-import covidTTi.utils as utils
 
 class TTIModel():
 
     def __init__(
         self, 
-        parmameters
+        parameters
         ):
 
         self.parameters = parameters
@@ -20,7 +19,7 @@ class TTIModel():
     def init_cases(self):
 
         cases = []
-        for n in n_cases:
+        for n in self.n_cases:
             cases.append(indexCase(self.parameters))
 
         self.cases = cases
