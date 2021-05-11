@@ -2,17 +2,19 @@ pop_params:
   prevalence: 1000
 
 epi_params:
-  p_symptomatic: 0.63
-  max_infectiousness_day: 18
+  p_symp: 0.63
+  max_infectious_day: 18
   asymp_factor: 0.2
-  beta: 0.016
+  sar: # probability a contact is infected by primary case over the duration of the infectious period
+    household: 0.3
+    other: 0.045
 
 contact_params:
   household_dict:
     1: 0.2
     2: 0.3
     3: 0.5
-  mean_daily_contacts: 5
+  n_contacts: 5
   
 
 

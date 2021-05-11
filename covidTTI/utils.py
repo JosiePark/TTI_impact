@@ -1,5 +1,13 @@
 import yaml
 from scipy.stats import gamma
+import numpy as np
+
+def init_seed(random_seed = 1):
+    '''
+    Function that create random generator
+    '''
+    return np.random.default_rng(seed = random_seed)
+
 
 def load_config(fpath):
     '''
