@@ -71,15 +71,18 @@ class Contact():
                 self.parameters['epi_params']['p_symp'],
                 self.rng
             )
+            self.day_symptomatic = utils.draw_from_incubation_period(self.rng)
         else:
-            self.symptomatic = False      
+            self.symptomatic = False 
+            self.day_symptomatic = np.nan     
 
     def trace(self):
         '''
         Calculate whether the contact was traced or not
         '''
 
-        # if the index case enters contacts, then
+        # if the index case enters contacts, then establish whether
+        # contact was successfull contacted and when
         if self.index_case.enters_contacts:
             # if contact is a household member
             # assume tracing is successful
@@ -94,6 +97,7 @@ class Contact():
                 )
                 # assume tracing occurs a maximum of 3 days after contacts
                 # were entered by the index case
+                # TODO: change this to a data-driven approach
                 self.day_traced = self.index_case.day_contacts_entered + \
                     self.rng.randint(0, 3)
                 
@@ -113,9 +117,15 @@ class Contact():
                 self.rng
             )
             if test_on_symptoms:
-                day_test_on_symptoms
+                # day tested is a maximum of 3 days after symptom onset
+                # TODO: inform the testing date using data
+                day_test_on_symptoms = self.day_symptomatic \
+                     + self.rng.rand_int(0, 3)
+                
         else:
             test_on_symptoms = False
+        
+        if not test_on_symptoms:
             day_test_on_symptoms = np.nan
 
         # is testing done on tracing?
@@ -125,19 +135,31 @@ class Contact():
                 self.rng
             )
             if test_on_tracing:
-                #day_test_on_tracing
+                # is done after the index case has been contacted
+                # plus the number of days in communicating result
+                # plus the number of days it takes for an individual to test
+                # TODO: drive this result with data
+                day_test_on_tracing = self.index_case.day_contacts_entered \
+                    + self.rng.random.rand_int(0,5)
         else:
             test_on_tracing = False
-            day_test_on_tracing = False
+        
+        if not test_on_tracing:
+            day_test_on_tracing = np.nan
 
         # is random asymptomatic (i.e. mass testing) done?
         test_on_mass = utils.bernoulli(
             self.parameters['test_params']['p_mass_test'],
             self.rng
         )
-        # day tested on mass is drawn from a uniform distribution
-        # covering the infectious period
-        day_test_on_mass = self.rng.random.randint(0, 14)
+        
+        if test_on_mass:
+            # day tested on mass is drawn from a uniform distribution
+            # covering the infectious period
+            day_test_on_mass = self.rng.random.randint(0, 14)
+
+        if not test_on_mass:
+            day_test_on_mass = np.nan
 
         # contact is tested whether any of the above are true
         if test_on_symptoms or test_on_mass or test_on_tracing:
@@ -158,11 +180,57 @@ class Contact():
                 self.parameters['isolate_params']['p_isolate_symp'],
                 self.rng
             )
-            day_isolate_on_symptoms = 
+            if isolate_on_symptoms:
+                # assume isolates on symptom onset
+                day_isolate_on_symptoms = self.day_symptomatic
+            else:
+                day_isolate_on_symptoms = False
+        else:
+            isolate_on_symptoms = False
+            day_isolate_on_symptoms = np.nan
+
 
         # isolate on trace
+        if self.traced:
+            isolate_on_trace = utils.bernoulli(
+                self.parameters['isolate_params']['p_isolate_trace'],
+                self.rng
+                )
+            if isolate_on_trace:
+                day_isolate_on_trace = self.day_traced
+            else:
+                day_isolate_on_trace = np.nan
+
+        else:
+            isolate_on_trace = False
+            day_isolate_on_trace = np.nan
 
         # isolate on test
+        if self.test:
+            isolate_on_test = utils.bernoulli(
+                self.parameters['isolate_params']['p_isolate_test'],
+                self.rng
+            )
+            if isolate_on_test:
+                # TODO: change to day test result communicated
+                day_isolate_on_test = self.day_tested
+            else:
+                day_isolate_on_test = np.nan
+            
+        else:
+            isolate_on_test = False
+            day_isolate_on_test = True
+
+        if isolate_on_symptoms or isolate_on_test or isolate_on_trace:
+            self.isolated = True
+            self.day_isolated = min(
+                day_isolate_on_test,
+                day_isolate_on_symptoms,
+                day_isolate_on_trace
+                )
+        else:
+            self.isolated = False
+            self.day_isolated = np.nan
 
         
 
