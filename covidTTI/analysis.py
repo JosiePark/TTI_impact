@@ -1,3 +1,5 @@
+import covidTTI.utils as utils
+
 def calculate_R_0(model):
     '''
     Calculates what the R number would be without any
@@ -28,3 +30,23 @@ def calculate_R_eff(model):
     # TODO
 
     return
+
+def calculate_infections_stopped(model):
+    '''
+    Calculate what proportion of onward infection was prevented
+    by isolation
+    '''
+
+    prevented_transmission = 0
+    for c in model.contacts:
+        if c.isolated:
+            # calculate the amount of onward transmission
+            # from the day the contact isolate
+            onward_transmission = utils.calculate_viral_load(
+                c.day_isolated
+            )
+            prevented_transmission += onward_transmission
+
+    prevented_transmission_per_contact = prevented_transmission/len(model.contacts)
+    
+    return prevented_transmission_per_contact

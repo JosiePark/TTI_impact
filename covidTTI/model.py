@@ -3,6 +3,7 @@ import numpy as np
 
 from covidTTI.contacts import Contact
 from covidTTI.cases import indexCase
+import covidTTI.utils as utils
 
 class TTIModel():
 
@@ -17,6 +18,10 @@ class TTIModel():
         self.init_contacts()
 
     def init_cases(self):
+        '''
+        Initialise a list of cases simulated using the indexCase
+        class
+        '''
 
         cases = []
         for n in range(self.n_cases):
@@ -25,6 +30,9 @@ class TTIModel():
         self.cases = cases
 
     def init_contacts(self):
+        '''
+        Initialise secondary contacts for each indexCase
+        '''
 
         secondary_contacts = []
         for case in self.cases:
@@ -42,6 +50,9 @@ class TTIModel():
                 )
 
         self.contacts = secondary_contacts
+
+
+
         
 
 
