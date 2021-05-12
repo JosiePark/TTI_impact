@@ -1,5 +1,5 @@
 pop_params:
-  prevalence: 1000
+  prevalence: 1
 
 epi_params:
   p_symp: 0.63
@@ -19,6 +19,16 @@ contact_params:
 trace_params:
   p_contacts_entered: 0.2
   p_traced: 0.2
+
+test_params:
+  p_symp_test: 0.6
+  p_mass_test: 0.4
+  p_trace_test: 0.2
+
+isolate_params:
+  p_symp_isolate: 0.8
+  p_test_isolate: 0.6
+  p_trace_isolate: 0.2
   
 
 

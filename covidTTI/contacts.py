@@ -18,7 +18,7 @@ class Contact():
         # draw uniformly from the infectious length
         # to get the day that the individual came into
         # contact with the index case
-        self.day_exposed = self.rng.random.randint(
+        self.day_exposed = self.rng.integers(
             low = 0, 
             high = self.parameters['epi_params']['max_infectious_day']
         )
@@ -41,7 +41,7 @@ class Contact():
         # if a member of the household
         if self.is_household:
             self.has_covid = utils.bernoulli(
-                infection_scale * self.parameters['contact_params']['sar']['household'],
+                infection_scale * self.parameters['epi_params']['sar']['household'],
                 self.rng
                 )
             if self.has_covid:
@@ -56,7 +56,7 @@ class Contact():
         else:
             viral_load = utils.calculate_viral_load(self.day_exposed)
             self.has_covid = utils.bernoulli(
-                viral_load * infection_scale * self.parameters['contact_params']['sar']['other'] * self.parameters['epi_params']['max_infectious_day'],
+                viral_load * infection_scale * self.parameters['epi_params']['sar']['other'] * self.parameters['epi_params']['max_infectious_day'],
                 self.rng
                 )
             
@@ -99,7 +99,7 @@ class Contact():
                 # were entered by the index case
                 # TODO: change this to a data-driven approach
                 self.day_traced = self.index_case.day_contacts_entered + \
-                    self.rng.randint(0, 3)
+                    self.rng.integers(0, 3)
                 
         else:
             self.traced = False
@@ -113,14 +113,14 @@ class Contact():
         # is testing done on symptoms?
         if self.symptomatic:
             test_on_symptoms = utils.bernoulli(
-                self.parameters['testing_params']['p_symp_test'],
+                self.parameters['test_params']['p_symp_test'],
                 self.rng
             )
             if test_on_symptoms:
                 # day tested is a maximum of 3 days after symptom onset
                 # TODO: inform the testing date using data
                 day_test_on_symptoms = self.day_symptomatic \
-                     + self.rng.rand_int(0, 3)
+                     + self.rng.integers(0, 3)
                 
         else:
             test_on_symptoms = False
@@ -156,7 +156,7 @@ class Contact():
         if test_on_mass:
             # day tested on mass is drawn from a uniform distribution
             # covering the infectious period
-            day_test_on_mass = self.rng.random.randint(0, 14)
+            day_test_on_mass = self.rng.integers(0, 14)
 
         if not test_on_mass:
             day_test_on_mass = np.nan
@@ -177,7 +177,7 @@ class Contact():
         # isolate on symptoms
         if self.symptomatic:
             isolate_on_symptoms = utils.bernoulli(
-                self.parameters['isolate_params']['p_isolate_symp'],
+                self.parameters['isolate_params']['p_symp_isolate'],
                 self.rng
             )
             if isolate_on_symptoms:
@@ -193,7 +193,7 @@ class Contact():
         # isolate on trace
         if self.traced:
             isolate_on_trace = utils.bernoulli(
-                self.parameters['isolate_params']['p_isolate_trace'],
+                self.parameters['isolate_params']['p_trace_isolate'],
                 self.rng
                 )
             if isolate_on_trace:
@@ -208,7 +208,7 @@ class Contact():
         # isolate on test
         if self.test:
             isolate_on_test = utils.bernoulli(
-                self.parameters['isolate_params']['p_isolate_test'],
+                self.parameters['isolate_params']['p_test_isolate'],
                 self.rng
             )
             if isolate_on_test:
