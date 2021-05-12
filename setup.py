@@ -1,3 +1,4 @@
+from typing_extensions import Required
 from setuptools import setup
 
 setup(
@@ -7,4 +8,9 @@ setup(
    author='Josie Park',
    author_email='josiepark92@hotmail.co.uk',
    packages=['covidTTI'],
+   install_requires=[
+      'numpy',
+      'PyYaml',
+      'scipy'
+   ]
 )

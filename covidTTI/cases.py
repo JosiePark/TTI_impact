@@ -14,6 +14,7 @@ class indexCase():
         self.rng = utils.init_seed(random_seed = random_seed)
         self.init_case()
         self.draw_contacts()
+        self.report_contacts()
 
     def init_case(self):
 
@@ -37,10 +38,10 @@ class indexCase():
         # it is assumed that these contacts are come
         # into contact every day
         self.n_household = self.rng.choice(
-            a = self.parameters['contact_params']['household_dict'].keys(), 
-            p = self.parameters['contact_params']['household_dict'].values(), 
+            a = list(self.parameters['contact_params']['household_dict'].keys()), 
+            p = list(self.parameters['contact_params']['household_dict'].values()), 
             size = 1
-        )
+        )[0]
 
         # number of non-household contacts
         # it is multiplied by the length of the infectious
@@ -68,7 +69,7 @@ class indexCase():
             #  after symptomatic onset
             self.day_contacts_entered = \
                 utils.draw_from_incubation_period(self.rng) + \
-                    self.rng.randint(0, 5)
+                    self.rng.integers(0, 5)
         else:
             self.enters_contacts = False 
             self.day_contacts_entered = np.nan

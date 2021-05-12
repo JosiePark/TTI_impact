@@ -59,5 +59,5 @@ def draw_from_viral_load(rng, size = 1):
 
 def calculate_viral_load(day):
 
-    return nbinom.pmf(x = day, mean = 1, shape = 0.45)
+    return nbinom.pmf(k = day, n = 1, p = 0.45)
 

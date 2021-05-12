@@ -19,7 +19,7 @@ class TTIModel():
     def init_cases(self):
 
         cases = []
-        for n in self.n_cases:
+        for n in range(self.n_cases):
             cases.append(indexCase(self.parameters))
 
         self.cases = cases
@@ -40,6 +40,8 @@ class TTIModel():
                     is_household = False
                     )
                 )
+
+        self.contacts = secondary_contacts
         
 
 
