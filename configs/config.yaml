@@ -1,5 +1,5 @@
 pop_params:
-  prevalence: 1
+  prevalence: 100
 
 epi_params:
   p_symp: 0.63
