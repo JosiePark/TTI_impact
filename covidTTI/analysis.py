@@ -1,3 +1,5 @@
+import numpy as np
+
 import covidTTI.utils as utils
 
 def calculate_R_0(model):
@@ -27,9 +29,18 @@ def calculate_R_eff(model):
     This is equiavelent to the effective Reproduction number
     '''
 
-    # TODO
+    print('n_covid = ', len([c for c in model.contacts if c.has_covid]))
+    print('not covid = ', len([c for c in model.contacts if not c.has_covid]))
+    print('not isolated = ', len([c for c in model.contacts if not c.isolated]))
+    infections_post_intervention = len([c for c in model.contacts if ((not c.isolated) and (c.has_covid))])
+    print('infections not prevented = ', infections_post_intervention)
 
-    return
+    fractional_R = calculate_infections_stopped(model)
+    print('fractional infection prevented = ',fractional_R)
+
+    R_eff = (infections_post_intervention + fractional_R)/len(model.cases)
+
+    return R_eff
 
 def calculate_infections_stopped(model):
     '''
@@ -37,16 +48,15 @@ def calculate_infections_stopped(model):
     by isolation
     '''
 
-    prevented_transmission = 0
+    onward_transmission = 0
     for c in model.contacts:
-        if c.isolated:
+        if c.isolated and c.has_covid:
             # calculate the amount of onward transmission
             # from the day the contact isolate
-            onward_transmission = utils.calculate_viral_load(
-                c.day_isolated
-            )
-            prevented_transmission += onward_transmission
+            # TODO: this should be cumsum (i.e CDF of viral load)
+            cum_transmission = np.cumsum(model.infectious_period[:int(c.day_isolated)])[-1]
+            onward_transmission += cum_transmission
 
-    prevented_transmission_per_contact = prevented_transmission/len(model.contacts)
+    transmission_per_contact = onward_transmission
     
-    return prevented_transmission_per_contact
+    return transmission_per_contact

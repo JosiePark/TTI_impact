@@ -22,7 +22,9 @@ if __name__ == "__main__":
 
     # calculate the R_0 number
     R_0 = analysis.calculate_R_0(model)
-    print(R_0)
+    R_eff = analysis.calculate_R_eff(model)
+    print('R_0 =', R_0)
+    print('R_eff = ', R_eff)
 
 
 

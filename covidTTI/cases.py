@@ -7,11 +7,13 @@ class indexCase():
     def __init__(
         self,
         parameters,
+        incubation_period,
         random_seed = 1
         ):
 
         self.parameters = parameters
         self.rng = utils.init_seed(random_seed = random_seed)
+        self.incubation_period = incubation_period
         self.init_case()
         self.draw_contacts()
         self.report_contacts()
@@ -28,7 +30,10 @@ class indexCase():
 
         # when symptoms occur
         if self.symptomatic:
-            self.day_symptom_onset = utils.draw_from_incubation_period(self.rng)
+            self.day_symptom_onset = utils.draw_from_pdf(
+                self.rng,
+                self.incubation_period
+                )
         else:
             self.day_symptom_onset = np.nan
 
@@ -68,7 +73,7 @@ class indexCase():
             # assume that it is a maximum of 5 days
             #  after symptomatic onset
             self.day_contacts_entered = \
-                utils.draw_from_incubation_period(self.rng) + \
+                utils.draw_from_pdf(self.rng, self.incubation_period) + \
                     self.rng.integers(0, 5)
         else:
             self.enters_contacts = False 
