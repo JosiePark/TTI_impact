@@ -109,7 +109,7 @@ class Contact():
                 # TODO: change this to a data-driven approach
                 if self.traced:
                     self.day_traced = self.index_case.day_contacts_entered + \
-                        self.rng.integers(0, 3)
+                        self.rng.integers(1, 3)
                 else:
                     self.day_traced = np.nan
                 
@@ -132,7 +132,7 @@ class Contact():
                 # day tested is a maximum of 3 days after symptom onset
                 # TODO: inform the testing date using data
                 day_test_on_symptoms = self.day_symptomatic \
-                     + self.rng.integers(0, 3)
+                     + self.rng.integers(1, 3)
                 
         else:
             test_on_symptoms = False
@@ -152,7 +152,7 @@ class Contact():
                 # plus the number of days it takes for an individual to test
                 # TODO: drive this result with data
                 day_test_on_tracing = self.index_case.day_contacts_entered \
-                    + self.rng.random.rand_int(0,5)
+                    + self.rng.random.rand_int(1,5)
             else:
                 day_test_on_tracing = np.nan
         else:
@@ -169,7 +169,7 @@ class Contact():
             if test_on_mass:
                 # day tested on mass is drawn from a uniform distribution
                 # covering the infectious period
-                day_test_on_mass = self.rng.integers(0, 14)
+                day_test_on_mass = self.rng.integers(1, 14)
             else:
                 day_test_on_mass = np.nan
         else:
@@ -251,6 +251,7 @@ class Contact():
         else:
             self.isolated = False
             self.day_isolated = np.nan
+
 
         
 

@@ -36,7 +36,7 @@ def calculate_R_eff(model):
     print('infections not prevented = ', infections_post_intervention)
 
     fractional_R = calculate_infections_stopped(model)
-    print('fractional infection prevented = ',fractional_R)
+    print('fractional infection prevented = ',fractional_R/len(model.cases))
 
     R_eff = (infections_post_intervention + fractional_R)/len(model.cases)
 
@@ -54,7 +54,10 @@ def calculate_infections_stopped(model):
             # calculate the amount of onward transmission
             # from the day the contact isolate
             # TODO: this should be cumsum (i.e CDF of viral load)
-            cum_transmission = np.cumsum(model.infectious_period[:int(c.day_isolated)])[-1]
+            if c.day_isolated == 0:
+                cum_transmission = 0
+            else:
+                cum_transmission = np.cumsum(model.infectious_period[:int(c.day_isolated)])[-1]
             onward_transmission += cum_transmission
 
     transmission_per_contact = onward_transmission
