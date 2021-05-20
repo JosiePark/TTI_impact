@@ -17,6 +17,7 @@ Contacts can catch Covid or not, be symptomatic or not, be tested or not, be tra
     * cases.py : defines the case class and populates a single case
     * contacts.py : defines the contact class and populates a single contact
     * utils.py : defines some of the distributions (e.g. incubation period) from which samples are drawn
+    * analysis.py : contains functions that calculate key statistics such as the R0 number and effective R number.
 
 ## STATUS
 
