@@ -1,5 +1,5 @@
 import yaml
-from scipy.stats import gamma, nbinom
+from scipy.stats import gamma, nbinom, lognorm
 import numpy as np
 
 def init_seed(random_seed = 1):
@@ -30,34 +30,38 @@ def bernoulli(p, rng):
     '''
     return rng.uniform() < p
 
-def draw_from_incubation_period(rng, size = 1):
+def draw_from_pdf(rng, pdf, size = 1):
+
+    result = np.argmax(rng.multinomial(1, pdf, size = size), axis = - 1)
+
+    return result[0]
+
+def calc_incubation_period(period, shape = 4.23, scale = 1/0.81):
     '''
     Draw from the incubation period - defined as the time
     from infection to symptom onset
     '''
-    return rng.gamma(shape = 4.23, scale = 1/0.81, size = size)
 
-def draw_from_generation_interval(rng, size = 1):
-    '''
-    Draw from the generation interval - defined as the time
-    between two consecutive infections
-    '''
-    return 
+    # calculate daily incubation period
+    days = np.arange(period)
+    incubation_period = gamma.pdf(days + 1, a = shape, scale = scale)
 
-def draw_from_exposed_to_infectious(rng, size = 1):
-    '''
-    
-    '''
+    incubation_period = incubation_period / sum(incubation_period)
 
-    return rng.lognormal(mean = 4.5, sigma = 1.5, size = 1)
+    return incubation_period
 
-def draw_from_viral_load(rng, size = 1):
-    '''
+def calc_exposed_to_infectious(period):
 
-    '''
-    return rng.negative_binomial(mean = 1, shape = 0.45, size = size)
+    days = np.arange(period)
 
-def calculate_viral_load(day):
+    exposed_to_infectious = lognorm.pdf(days + 1, s = 1.5, scale = np.exp(4.5))
 
-    return nbinom.pmf(k = day, n = 1, p = 0.45)
+    return exposed_to_infectious / sum(exposed_to_infectious)
+
+def calc_infectious_dist(period):
+
+    days = np.arange(period)
+
+    viral_load = nbinom.pdf(days + 1, n = 1, p = 0.45)
+    return viral_load/np.sum(viral_load)
 
