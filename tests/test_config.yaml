@@ -2,7 +2,7 @@ pop_params:
   prevalence: 1000
 
 epi_params:
-  p_symp: 0.63
+  p_symp: 1
   max_infectious_day: 18
   asymp_factor: 0.2
   sar: # probability a contact is infected by primary case over the duration of the infectious period
