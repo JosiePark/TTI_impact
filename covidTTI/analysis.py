@@ -28,15 +28,9 @@ def calculate_R_eff(model):
 
     This is equiavelent to the effective Reproduction number
     '''
-
-    print('n_covid = ', len([c for c in model.contacts if c.has_covid]))
-    print('not covid = ', len([c for c in model.contacts if not c.has_covid]))
-    print('not isolated = ', len([c for c in model.contacts if not c.isolated]))
     infections_post_intervention = len([c for c in model.contacts if ((not c.isolated) and (c.has_covid))])
-    print('infections not prevented = ', infections_post_intervention)
 
     fractional_R = calculate_infections_stopped(model)
-    print('fractional infection prevented = ',fractional_R/len(model.cases))
 
     R_eff = (infections_post_intervention + fractional_R)/len(model.cases)
 

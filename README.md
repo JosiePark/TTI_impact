@@ -18,8 +18,9 @@ Contacts can catch Covid or not, be symptomatic or not, be tested or not, be tra
     * contacts.py : defines the contact class and populates a single contact
     * utils.py : defines some of the distributions (e.g. incubation period) from which samples are drawn
     * analysis.py : contains functions that calculate key statistics such as the R0 number and effective R number.
+    * sim.py : runs the simulation given config settings
+    * outputs.py : creates a dictionary of key outputs
+    
 
-## STATUS
 
-**THIS IS A WIP AND IS NOT COMPLETED OR EXPECTED TO WORK**
 
