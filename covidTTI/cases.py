@@ -62,8 +62,7 @@ class indexCase():
     def report_contacts(self):
 
         # does the cases supply contacts?
-        # if the case is asymptomatic, assume that contacts are 
-        # only entered if tested
+        # assume that contacts are only reported if the case is symptomatic
         if self.symptomatic:
             self.enters_contacts = utils.bernoulli(
                 self.parameters['trace_params']['p_contacts_entered'],
