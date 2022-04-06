@@ -1,0 +1,34 @@
+pop_params:
+  prevalence: 1000
+
+epi_params:
+  p_symp: 1
+  max_infectious_day: 18
+  asymp_factor: 0.2
+  sar: # probability a contact is infected by primary case over the duration of the infectious period
+    household: 0.3
+    other: 0.045
+
+contact_params:
+  household_dict:
+    1: 0.2
+    2: 0.3
+    3: 0.5
+  n_contacts: 5
+
+trace_params:
+  p_contacts_entered: 0.2
+  p_traced: 0.2
+
+test_params:
+  p_symp_test: 0.6
+  p_mass_test: 0
+  p_trace_test: 0
+
+isolate_params:
+  p_symp_isolate: 0.8
+  p_test_isolate: 0.4
+  p_trace_isolate: 0.2
+  
+
+

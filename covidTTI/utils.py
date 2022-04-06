@@ -33,8 +33,10 @@ def bernoulli(p, rng):
 def draw_from_pdf(rng, pdf, size = 1):
 
     result = np.argmax(rng.multinomial(1, pdf, size = size), axis = - 1)
-
-    return result[0]
+    if size == 1:
+        return result[0]
+    else:
+        return result
 
 def calc_incubation_period(period, shape = 4.23, scale = 1/0.81):
     '''
