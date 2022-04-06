@@ -1,5 +1,7 @@
 # covidTTI
 
+[![Python Actions](https://github.com/JosiePark/TTI_impact/actions/workflows/pytest.yml/badge.svg)](https://github.com/JosiePark/TTI_impact/actions/workflows/pytest.yml)
+
 ## Introduction
 
 A model to estimate the impact of testing, tracing and isolating on the R number.

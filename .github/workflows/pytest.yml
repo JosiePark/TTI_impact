@@ -1,8 +1,8 @@
-name: PyTest
-on: push
+name: CI
+on: pull_request
 
 jobs:
-  test:
+  built-test:
     runs-on: ubuntu-latest
     timeout-minutes: 10
 
